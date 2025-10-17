@@ -1,14 +1,12 @@
 "use strict";
 // Завдання 1
 myFunc();
-// console.log(param);
+
 
 function myFunc() {
   const param = "dkfjlkk";
   console.log(param);
 };
-// let alert = 1;
-// console.log(alert);
 
 // Завдання 2
 
@@ -21,16 +19,17 @@ function myFunc() {
 // console.log({ a, b });
 
 // //Друге рішення
-// const inc2 = (num) => {
-//   return ++num.n;
-// };
-// const obj = { n: 5 };
-
-// console.log(inc2(obj));
+const inc2 = (num) => {
+  return ++num.n;
+};
+const obj = { n: 5 };
+inc2(obj)
+console.log(obj);
 
 // // Завдання 3
-// const map = [true, "hello", 5, 12, -200, false, false, "word"];
-// const table = {number: 0, string: 0, boolean: 0,};
+const map = [true, "hello", 5, 12, -200, false, false, "word"];
+const table = {};
+
 
 // // for..of
 // // for ( let i = 0; i < map.length; i++) {
@@ -51,8 +50,17 @@ function myFunc() {
 // //         table.boolean++;
 // //     }
 // // }
+// const table = {number: 0, string: 0, boolean: 0, };
 // for (const element of map) {
 //   let type = typeof element;
-//   table[type]++;
+
+//    table[type]++;
+   
 // }
-// console.log(table);
+for (const element of map) {
+   let type = typeof element;
+  
+   table[type] = (table[type] || 0) + 1;
+   console.log(table);
+};
+console.log(table);
