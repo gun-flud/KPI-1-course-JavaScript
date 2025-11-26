@@ -14,14 +14,17 @@ const fun = {
 // ]
 function arr(functional){
     let definitions = [];
-    for ( i in functional){
+    for ( let i in functional){
         if (typeof functional[i] === 'function'){
            definitions.push(([ i,  functional[i].length])); 
         }
       
         
     };
-     console.log(definitions);
+    console.log(definitions);
+     console.table(definitions);
 };
 
 arr(fun);
+
+

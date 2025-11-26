@@ -1,0 +1,16 @@
+/**
+ * @param {string} word1
+ * @param {string} word2
+ * @return {string}
+ */
+var mergeAlternately = function (word1, word2) {
+    const first = word1.split("");
+    const second = word2.split("");
+    const merged = new Array();
+    for (let i = 0; i < first.length + second.length; i++) {
+        if (i < first.length) merged.push(first[i]);
+        if (i < second.length) merged.push(second[i]);
+    };
+    return merged.join('')
+};
+console.log(mergeAlternately("abc", "qwerty"));
