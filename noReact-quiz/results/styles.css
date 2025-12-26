@@ -1,0 +1,29 @@
+@import "/templates/styles.css";
+#container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(20vw, 20vw));
+	grid-template-rows: repeat(auto-fill, minmax(20vw, 20vw));
+	gap: 2vw;
+	justify-content: center;
+}
+.quiz {
+	align-items: center;
+	aspect-ratio: 1;
+	background-color: rgb(233, 14, 178);
+	border: none;
+	border-radius: 20px;
+	color: rgb(35, 15, 35);
+	font-family: "Pixelify Sans", sans-serif;
+	font-size: 23px;
+	image-rendering: pixelated;
+	justify-content: center;
+	max-height: 400px;
+	width: 20vw;
+	z-index: 1;
+}
+
+@media screen and (max-width: 768px) {
+	.quiz {
+		font-size: 13px;
+	}
+}

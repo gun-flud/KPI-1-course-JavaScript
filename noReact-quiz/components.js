@@ -1,0 +1,67 @@
+import { tests } from "./lstests.js";
+
+// variables
+export const storage = JSON.parse(localStorage.getItem("storage"));
+
+let _selected = {};
+
+export const selectedQuiz = {
+	get value() {
+		const saved = sessionStorage.getItem("selectedQuiz");
+		return saved ? JSON.parse(saved) : _selected;
+	},
+	set value(newSelected) {
+		_selected = newSelected;
+		sessionStorage.setItem("selectedQuiz", JSON.stringify(newSelected));
+	},
+};
+
+// Initialize storage if not present
+loadDefaultTests();
+
+// functions related to adding elements
+export function addQuizElement(
+	element,
+	parent,
+	classOrName = "",
+	valueOrHTML = "",
+	checked = false,
+	disabled = false
+) {
+	const newElement = document.createElement(element);
+	if (element === "input") {
+		newElement.type = "radio";
+		newElement.name = classOrName;
+		newElement.value = valueOrHTML;
+		newElement.checked = checked;
+		newElement.disabled = disabled;
+	} else {
+		newElement.className = classOrName;
+		newElement.innerHTML = valueOrHTML;
+	}
+	parent.appendChild(newElement);
+	return newElement;
+}
+
+export function addDescriptionButton(text, ref, quiz, qIndex) {
+	const wrapper = document.getElementsByClassName("description-buttons")[0];
+	const button = addQuizElement("button", wrapper, "description-button", text);
+	button.onclick = () => {
+		if (ref === "/del") {
+			storage.quizzes = storage.quizzes.filter((q, index) => index !== qIndex);
+			localStorage.setItem("storage", JSON.stringify(storage));
+			window.location.reload();
+		} else {
+			selectedQuiz.value = quiz;
+			window.location.href = ref;
+		}
+	};
+}
+
+// functions related to storage
+export function loadDefaultTests() {
+	if (!storage) {
+		localStorage.setItem("storage", JSON.stringify(tests));
+		window.location.reload();
+	}
+}

@@ -1,0 +1,180 @@
+* {
+	--pointer-cursor: url("/textures/cursor-pointer-icon.png") 2 2, pointer;
+	--text-cursor: url("/textures/cursor-text-icon.png") 16 16, text;
+	cursor: url("/textures/cursor-icon.png") 4 4, auto;
+}
+
+body,
+html {
+	font-family: Arial, sans-serif;
+	background-color: rgb(80, 12, 63);
+	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	display: flex;
+	flex-direction: column;
+	font-family: "Pixelify Sans", sans-serif;
+}
+
+header {
+	background-color: rgb(146, 6, 146);
+	color: rgb(27, 0, 25);
+	text-align: center;
+	justify-content: center;
+	display: flex;
+	flex-direction: row;
+	padding: 2% 0;
+	height: 10%;
+	min-height: 25px;
+	border-radius: 0 0 20% 20%;
+	font-size: 40px;
+	top: 0;
+	width: 100%;
+	font-family: "Stalinist One", sans-serif;
+	image-rendering: pixelated;
+}
+
+header h1 {
+	font-size: 40px;
+	margin: auto;
+}
+
+footer {
+	background-color: rgb(146, 6, 146);
+	color: rgb(27, 0, 25);
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	text-align: center;
+	padding: 2% 0;
+	font-size: clamp(5px, 3vw, 10px);
+	border-radius: 20% 20% 0 0;
+	height: 5%;
+	bottom: 0;
+	width: 100%;
+	margin-top: 2%;
+	font-family: "Stalinist One", sans-serif;
+}
+
+.logo {
+	position: absolute;
+	top: 10px;
+	left: 10px;
+}
+
+.button {
+	width: fit-content;
+	background-color: rgb(255, 0, 98);
+	color: white;
+	border: none;
+	padding: 5px 10px;
+	border-radius: 5px;
+	font-size: 16px;
+	font-family: "Pixelify Sans", sans-serif;
+}
+
+.backButton {
+	margin-right: 5%;
+	position: absolute;
+	right: 0;
+	color: white;
+	border: none;
+	padding: 0;
+	border-radius: 5px;
+	justify-content: center;
+	text-decoration: none;
+}
+
+.backButton img {
+	width: 100px;
+	height: 50px;
+}
+
+.stalinist-one-regular {
+	font-family: "Stalinist One", sans-serif;
+	font-weight: 200;
+	font-style: normal;
+}
+
+.pixelify-sans {
+	font-family: "Pixelify Sans", sans-serif;
+	font-optical-sizing: auto;
+	font-style: normal;
+}
+
+#container {
+	flex: 1;
+	width: 93vw;
+	margin: 0 auto;
+	background-color: rgb(34, 14, 34);
+	padding: 2%;
+	border-radius: 20px;
+	box-shadow: 0 0 10px rgba(114, 0, 104, 0.692);
+}
+
+#toolbar {
+	display: flex;
+	justify-content: center;
+	gap: 2%;
+	margin: 10px 0;
+}
+
+.toolbar {
+	color: rgb(27, 0, 25);
+	padding: 1% 0;
+	font-size: 30px;
+	font-family: "Pixelify Sans", sans-serif;
+	text-decoration: none;
+}
+
+/* for piskas cursors */
+button,
+a,
+input[type="radio"] {
+	&,
+	& * {
+		cursor: var(--pointer-cursor);
+	}
+}
+
+input,
+textarea {
+	&,
+	& * {
+		cursor: var(--text-cursor);
+	}
+}
+
+/* for cumshot effects */
+canvas.fx {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	top: 0;
+	pointer-events: none;
+	z-index: 999999999999;
+}
+
+@media screen and (max-width: 768px) {
+	header {
+		font-size: 25px;
+		min-height: 5vh;
+	}
+
+	.toolbar {
+		font-size: 15px;
+	}
+
+	#toolbar {
+		margin: 5px 0;
+	}
+
+	#logo {
+		width: 30px;
+		height: 30px;
+	}
+	#container {
+	
+	}
+}

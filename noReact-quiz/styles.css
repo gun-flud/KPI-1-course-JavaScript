@@ -1,0 +1,78 @@
+@import "/templates/styles.css";
+
+#container {
+	display: grid;
+	gap: 2vw;
+	grid-template: auto / repeat(auto-fill, minmax(20vw, 20vw));
+	justify-content: center;
+}
+
+.quiz {
+	align-items: center;
+	aspect-ratio: 1;
+	background-color: rgb(233, 14, 178);
+	border: none;
+	border-radius: 20px;
+	color: rgb(35, 15, 35);
+	font-family: "Pixelify Sans", sans-serif;
+	font-size: 23px;
+	image-rendering: pixelated;
+	justify-content: center;
+	max-height: 400px;
+	width: 20vw;
+	z-index: 1;
+}
+
+.description {
+	display: flex;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	max-height: 80vh;
+	width: 80vw;
+	z-index: 3;
+}
+
+.description-buttons {
+	position: absolute;
+	bottom: 20px;
+	left: 50%;
+	transform: translateX(-50%);
+	display: flex;
+	justify-content: space-between;
+	width: 90%;
+}
+
+.description-button {
+	background-color: rgba(245, 0, 98, 1);
+	border: none;
+	border-radius: 20px;
+	height: 50px;
+	width: 100px;
+}
+
+#overlay {
+	background-color: rgba(0, 0, 0, 0.5);
+	height: 100%;
+	left: 0;
+	position: fixed;
+	top: 0;
+	width: 100%;
+	z-index: 2;
+}
+
+.quiz img {
+	width: 40%;
+	height: 40%;
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+@media screen and (max-width: 768px) {
+	.quiz {
+		font-size: 13px;
+	}
+}
