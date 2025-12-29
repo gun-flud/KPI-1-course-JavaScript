@@ -1,28 +1,89 @@
-import { tests } from './quiz.mock.js';
-import { createContext, useContext, useState, } from 'react';
+// import { tests } from './quiz.mock.js';
+import { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
+
+const API_URL = 'http://localhost:3000/quizzes';
 
 const QuizContext = createContext(null);
 
 export const QuizProvider = ({ children }) => {
-    const [quizzes, setQuizzes] = useState(tests.quizzes);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-    const addQuiz = (newQuiz) => {
-        setQuizzes((previous) => [...previous, newQuiz ]);
+    const [quizzes, setQuizzes] = useState([]);
+
+
+    useEffect(() => {
+        const fetchQuizzes = async () => {
+            try { 
+                const response = await axios.get(API_URL);
+                setQuizzes(response.data);
+            } catch (err) {
+                console.error("failed to GET quizzes:", err);
+                setError(err.message || "Unknown error");
+            } finally {
+                setLoading(false);
+            }
+        };
+        fetchQuizzes();
+    }, []);
+
+
+    const deleteQuiz = async (id) => {
+        try {
+            await axios.delete(`${API_URL}/${id}`);
+            setQuizzes((previous) => 
+                previous.filter((quiz) => quiz.id !== id));
+        } catch (err) {
+            console.error("failed to DELETE quiz:", err);
+            alert("Не вдалось видалити тест, спробуй ще раз");
+        }
+    };
+
+    const addQuiz = async (newQuiz) => {
+        try {
+            const response = await axios.post(API_URL, newQuiz);
+            setQuizzes((previous) => [...previous, response.data]);
+
+        } catch (err) {
+            console.error("failed to ADD quiz:", err);
+            alert("Не вдалось додати тест, спробуй ще раз");
+        }
+    };
+
+    const updateQuiz = async (updateQuiz) => {
+        try {
+            await axios.put(`${API_URL}/${updateQuiz.id}`, updateQuiz);
+            setQuizzes((previous) => {
+                return previous.map((quiz) => 
+                    previous.map((quiz) => 
+                        updateQuiz.id === quiz.id ? updateQuiz : quiz
+                    ));
+            });
+        } catch (err) {
+            console.error("failed to UPDATE quiz:", err);
+            alert("Не вдалось оновити тест, спробуй ще раз");
+        }
     }
 
-    const updateQuiz = (updatedQuiz) => {
-        setQuizzes((previous) => 
-            previous.map((quiz) => 
-                updatedQuiz.id === quiz.id ? updatedQuiz : quiz
-            )
-        )
-    }
 
-    const deleteQuiz = (id) => {
-        setQuizzes((previous) => 
-            previous.filter((quiz) => quiz.id !== id)
-        )
-    }
+    // const addQuiz = (newQuiz) => {
+    //     setQuizzes((previous) => [...previous, newQuiz ]);
+    // }
+
+    // const updateQuiz = (updatedQuiz) => {
+    //     setQuizzes((previous) => 
+    //         previous.map((quiz) => 
+    //             updatedQuiz.id === quiz.id ? updatedQuiz : quiz
+    //         )
+    //     )
+    // }
+
+    // const deleteQuiz = (id) => {
+    //     setQuizzes((previous) => 
+    //         previous.filter((quiz) => quiz.id !== id)
+    //     )
+    // }
 
     return (
         <QuizContext.Provider 

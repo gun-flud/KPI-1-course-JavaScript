@@ -13,7 +13,8 @@ function Editing() {
     
   return (
       <div className="container">
-        <form className="quiz-form flex flex-col gap-7 flex-1">  
+        <form className="quiz-form flex flex-col gap-7 flex-1" onSubmit={ (e) => {
+            e.preventDefault();} }> 
           {id ? <QuizEditForm /> :<QuizCreateForm />}
           {/* <div className=" ">
             <button type="submit" className="button mt-4">Save Quiz</button>

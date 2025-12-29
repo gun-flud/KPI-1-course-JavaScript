@@ -1,5 +1,4 @@
 import { Link } from 'react-router'
-import moreIcon from '../assets/more-icon.svg';
 import MoreIconClickHandler from '../logic/functional.jsx';
 
 function QuizCard({ title, description, questionsCount, id }) {

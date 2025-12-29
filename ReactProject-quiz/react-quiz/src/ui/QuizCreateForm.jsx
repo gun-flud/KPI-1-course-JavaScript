@@ -1,11 +1,15 @@
 import { useState, useRef, useEffect, useId } from 'react'
 import { useNavigate } from 'react-router'; 
+import { useQuizzes } from '../features/quizzes/quiz.context.jsx';
 import QuestionForm from '../ui/QuestionForm'; 
 import "../index.css"
 import plusIcon from '../assets/plus-icon.png';
 
 
 function QuizCreateForm() {
+
+    const { addQuiz} = useQuizzes();
+    
 
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
@@ -122,6 +126,7 @@ function QuizCreateForm() {
                 questions: questions,
             };
             console.log("Quiz created:", quizData);
+            addQuiz(quizData);
             navigate("/");
         }else {
             alert("Please fill in all fields and add at least one question.");
