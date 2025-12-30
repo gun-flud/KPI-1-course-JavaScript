@@ -2,13 +2,15 @@ const sqlite3 = require('sqlite3').verbose();
 const db = new sqlite3.Database('./quiz.db');
 
 db.serialize(() => {
-  // 1. Створюємо таблиці
+  
+  // Таблиця КВІЗІВ
   db.run(`CREATE TABLE IF NOT EXISTS quizzes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     description TEXT
   )`);
 
+  // Таблиця ПИТАНЬ
   db.run(`CREATE TABLE IF NOT EXISTS questions (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     quiz_id INTEGER NOT NULL,
@@ -16,6 +18,7 @@ db.serialize(() => {
     FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
   )`);
 
+  // Таблиця ВАРІАНТІВ ВІДПОВІДЕЙ
   db.run(`CREATE TABLE IF NOT EXISTS options (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     question_id INTEGER NOT NULL,
@@ -24,20 +27,48 @@ db.serialize(() => {
     FOREIGN KEY (question_id) REFERENCES questions(id) ON DELETE CASCADE
   )`);
 
-  // 2. Очищаємо старі дані (щоб не дублювати при перезапуску)
+  // Таблиця КОРИСТУВАЧІВ
+  db.run(`CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT UNIQUE NOT NULL,
+    password TEXT NOT NULL,
+    created_at TEXT DEFAULT CURRENT_TIMESTAMP
+  )`);
+
+  // Таблиця РЕЗУЛЬТАТІВ
+  db.run(`CREATE TABLE IF NOT EXISTS results (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    user_id INTEGER NOT NULL,
+    quiz_id INTEGER NOT NULL,
+    score INTEGER NOT NULL,      -- Кількість правильних відповідей
+    total INTEGER NOT NULL,      -- Загальна кількість питань
+    date TEXT DEFAULT CURRENT_TIMESTAMP, -- Дата проходження
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (quiz_id) REFERENCES quizzes(id) ON DELETE CASCADE
+  )`);
+
+
+  db.run("DELETE FROM results"); // Спочатку видаляємо результати (бо вони зв'язані)
   db.run("DELETE FROM options");
   db.run("DELETE FROM questions");
   db.run("DELETE FROM quizzes");
+  db.run("DELETE FROM users");
   
-  // 3. Скидаємо лічильники ID (щоб починались з 1)
+
   db.run("DELETE FROM sqlite_sequence");
 
-  // 4. Вставка даних (Використаємо Prepared Statements для безпеки)
+  // тестовий юзер (щоб було на кого писати результати)
+  const insertUser = db.prepare("INSERT INTO users (username, password) VALUES (?, ?)");
+  insertUser.run("AdminUser", "admin123"); // ID буде 1
+  insertUser.finalize();
+
+  console.log("Tables created and Test User (ID=1) added.");
+
+
   const insertQuiz = db.prepare("INSERT INTO quizzes (title, description) VALUES (?, ?)");
   const insertQuestion = db.prepare("INSERT INTO questions (quiz_id, text) VALUES (?, ?)");
   const insertOption = db.prepare("INSERT INTO options (question_id, text, is_correct) VALUES (?, ?, ?)");
-
-  // Твої дані (mock data)
+  // (mock data)
   const quizzesData = [
         // --- ТЕСТ 1: Англійська мова (A1) ---
         {

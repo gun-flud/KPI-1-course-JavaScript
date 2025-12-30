@@ -26,6 +26,7 @@ app.get('/quizzes', (req, res) => {
         FROM quizzes q
         LEFT JOIN questions qs ON q.id = qs.quiz_id
         LEFT JOIN options o ON qs.id = o.question_id
+        ORDER BY q.id DESC, qs.id ASC, o.id ASC
     `;
 
     db.all(sql, [], (err, rows) => {
@@ -98,14 +99,19 @@ app.post('/quizzes', (req, res) => {
             
             const newQuizId = this.lastID; // Отримуємо ID 
 
-            // Якщо є питання, вставляємо їх
-            if (questions && questions.length > 0) {
+            if (!questions || questions.length === 0) {
+                 return res.status(201).json({ id: newQuizId, title, description, questions: [] });
+            }
+
                 const stmtQuestion = db.prepare("INSERT INTO questions (quiz_id, text) VALUES (?, ?)");
                 const stmtOption = db.prepare("INSERT INTO options (question_id, text, is_correct) VALUES (?, ?, ?)");
 
+                let quizCount = 0;
+
                 questions.forEach(q => {
                     stmtQuestion.run(newQuizId, q.text, function(err) {
-                        if (err) console.error(err); 
+                        if (err) console.error(err);
+
                         const questionId = this.lastID;
 
                         // Вставляємо опції для цього питання
@@ -115,15 +121,17 @@ app.post('/quizzes', (req, res) => {
                                 stmtOption.run(questionId, opt.text, opt.isCorrect ? 1 : 0);
                             });
                         }
-                    });
-                });
-                
-                stmtQuestion.finalize();
-                stmtOption.finalize();
-            }
 
-            // Повертаємо фронтенду об'єкт з новим ID
-            res.status(201).json({ id: newQuizId, title, description, questions });
+                        quizCount++;
+
+                        if (quizCount === questions.length) {   
+                            stmtQuestion.finalize();
+                            stmtOption.finalize();
+                            // Повертаємо фронтенду об'єкт з новим ID
+                            res.status(201).json({ id: newQuizId, title, description, questions });
+                        }
+                    });    
+                });
         });
     });
 });
@@ -139,31 +147,47 @@ app.put('/quizzes/:id', (req, res) => {
             if (err) return res.status(500).json({ error: err.message });
             
             // Видаляємо всі старі питання цього тесту (опції видаляться автоматом через CASCADE)
-            db.run("DELETE FROM questions WHERE quiz_id = ?", quizId, (err) => {
+            db.run("DELETE FROM questions WHERE quiz_id = ?", quizId, function(err) {
                 if (err) console.error("Error clearing old questions:", err);
 
                 // Записуємо "нові" питання (ті самі, що прийшли з фронтенду)
-                if (questions && questions.length > 0) {
+                if (!questions || questions.length === 0) {
+                    return res.json({ id: parseInt(quizId), title, description, questions: [] });
+                }
+
+                new Promise((resolve, reject) => { 
                     const stmtQuestion = db.prepare("INSERT INTO questions (quiz_id, text) VALUES (?, ?)");
                     const stmtOption = db.prepare("INSERT INTO options (question_id, text, is_correct) VALUES (?, ?, ?)");
 
+                    let quizCount = 0;
                     questions.forEach(q => {
                         stmtQuestion.run(quizId, q.text, function(err) {
+                            if (err) return reject(err);
+
+
                             const questionId = this.lastID;
+                            
                             if (q.options) {
                                 q.options.forEach(opt => {
                                     stmtOption.run(questionId, opt.text, opt.isCorrect ? 1 : 0);
                                 });
                             }
+                            quizCount++;
+                            if (quizCount === questions.length) {
+                                resolve({ stmtQuestion, stmtOption });
+                            }
                         });
                     });
-                    stmtQuestion.finalize();
-                    stmtOption.finalize();
-                }
+                    
+                }).then((statements) => {
+                    statements.stmtQuestion.finalize();
+                    statements.stmtOption.finalize();
+                    res.json({ id: parseInt(quizId), title, description, questions });
+                }).catch(err => {
+                    console.error("Error inserting questions/options:", err)
+                    res.status(500).json({ error: err.message });
+                });
             });
-
-            // Повертаємо оновлений об'єкт
-            res.json({ id: parseInt(quizId), title, description, questions });
         });
     });
 });

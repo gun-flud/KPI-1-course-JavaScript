@@ -9,13 +9,13 @@ function QuizList({ quizzes }) {
 
     return (
         <>
-            {quizzes.map((quiz) => (
+            {quizzes?.map((quiz) => (
                 <QuizCard 
                     key={quiz.id} // КЛЮЧ ОБОВ'ЯЗКОВО ТУТ (всередині map)
                     id={quiz.id}
                     title={quiz.title}
                     description={quiz.description}
-                    questionsCount={quiz.questions.length}
+                    questionsCount={quiz.questions?.length}
                 />
             ))}
         </>

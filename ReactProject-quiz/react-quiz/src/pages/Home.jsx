@@ -12,6 +12,9 @@ function Home() {
 
     const { quizzes, deleteQuiz } = useQuizzes();
     // const [quizzes] = useState(tests.quizzes);
+    if (!quizzes) {
+        return <div className="text-center mt-10">Завантаження тесту...</div>;
+    }
 
     return (
         <div className="container"> 

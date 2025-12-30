@@ -1,5 +1,5 @@
 // import { tests } from './quiz.mock.js';
-import { createContext, useContext, useState, useEffect } from 'react';
+import { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/quizzes';
@@ -9,29 +9,28 @@ const QuizContext = createContext(null);
 export const QuizProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
     const [quizzes, setQuizzes] = useState([]);
 
-
-    useEffect(() => {
-        const fetchQuizzes = async () => {
-            try { 
-                const response = await axios.get(API_URL);
-                setQuizzes(response.data);
-            } catch (err) {
-                console.error("failed to GET quizzes:", err);
-                setError(err.message || "Unknown error");
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchQuizzes();
+    // 1. Виносимо функцію завантаження
+    const fetchQuizzes = useCallback(async () => {
+        try { 
+            const response = await axios.get(API_URL);
+            setQuizzes(response.data);
+        } catch (err) {
+            console.error("failed to GET quizzes:", err);
+            setError(err.message || "Unknown error");
+        } finally {
+            setLoading(false);
+        }
     }, []);
+
+    useEffect(() => { fetchQuizzes(); }, [fetchQuizzes]);
 
 
     const deleteQuiz = async (id) => {
         try {
             await axios.delete(`${API_URL}/${id}`);
+            
             setQuizzes((previous) => 
                 previous.filter((quiz) => quiz.id !== id));
         } catch (err) {
@@ -42,52 +41,32 @@ export const QuizProvider = ({ children }) => {
 
     const addQuiz = async (newQuiz) => {
         try {
-            const response = await axios.post(API_URL, newQuiz);
-            setQuizzes((previous) => [...previous, response.data]);
-
+            await axios.post(API_URL, newQuiz);
+           
+            await fetchQuizzes(); 
         } catch (err) {
             console.error("failed to ADD quiz:", err);
             alert("Не вдалось додати тест, спробуй ще раз");
         }
     };
 
-    const updateQuiz = async (updateQuiz) => {
+    
+    const updateQuiz = async (updatedQuizData) => {
         try {
-            await axios.put(`${API_URL}/${updateQuiz.id}`, updateQuiz);
-            setQuizzes((previous) => {
-                return previous.map((quiz) => 
-                    previous.map((quiz) => 
-                        updateQuiz.id === quiz.id ? updateQuiz : quiz
-                    ));
-            });
+            await axios.put(`${API_URL}/${updatedQuizData.id}`, updatedQuizData);
+            
+            await fetchQuizzes(); 
+            
         } catch (err) {
             console.error("failed to UPDATE quiz:", err);
             alert("Не вдалось оновити тест, спробуй ще раз");
+            throw err; 
         }
     }
 
-
-    // const addQuiz = (newQuiz) => {
-    //     setQuizzes((previous) => [...previous, newQuiz ]);
-    // }
-
-    // const updateQuiz = (updatedQuiz) => {
-    //     setQuizzes((previous) => 
-    //         previous.map((quiz) => 
-    //             updatedQuiz.id === quiz.id ? updatedQuiz : quiz
-    //         )
-    //     )
-    // }
-
-    // const deleteQuiz = (id) => {
-    //     setQuizzes((previous) => 
-    //         previous.filter((quiz) => quiz.id !== id)
-    //     )
-    // }
-
     return (
         <QuizContext.Provider 
-        value={{ addQuiz, updateQuiz, deleteQuiz, quizzes }}>
+        value={{ addQuiz, updateQuiz, deleteQuiz, quizzes, loading, error }}>
             { children }
         </QuizContext.Provider>
     )

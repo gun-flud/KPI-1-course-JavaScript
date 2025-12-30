@@ -1,14 +1,16 @@
-function PlayOption( { option, id, onChange } ) { 
+import { useId } from 'react';
+function PlayOption( { option, id, onChange, keyId } ) { 
     return (
         <>
-        <label className="mt-1">
+        <label key={useId()} className="mt-1">
             <input 
+                key={keyId}
                 type="radio" 
                 name={id} 
                 className="mr-4"
                 onChange={onChange}
             />
-            <span>{option.text}</span>
+            <span key={useId()}>{option.text}</span>
         </label>
         </>
     );

@@ -19,9 +19,9 @@ function QuizEditForm() {
         const foundQuiz = quizzes.find(quiz => quiz.id === parseInt(id));
         
         if (foundQuiz) {
-            setQuizData(foundQuiz);
+            setQuizData(JSON.parse(JSON.stringify(foundQuiz)));
         } else {
-            console.error("Quiz not found");
+            console.warn(`Quiz with id ${id} not found immediately in list.`);
         }
     }
     }, [id, quizzes]);
@@ -101,10 +101,17 @@ function QuizEditForm() {
 
     // додати перевірку
     // updateQuiz крашиться
-    const handleSave = () => {
-        updateQuiz(quizData);
-        console.dir(quizData);
-        //navigate('/'); // Повертаємось на головну або до списку тестів
+    const handleSave = async () => {
+        if (!quizData) return;
+
+        try {
+            console.log("Відправляємо на сервер:", quizData);
+            await updateQuiz(quizData);
+            navigate('/'); 
+        } catch (error) {
+            console.error("Failed to save:", error);
+            alert("Error saving quiz");
+        }
     };
 
   //з едіт ми сюди тянемо лише id тесту а тут виконуємо його пошук і отримуємо дані

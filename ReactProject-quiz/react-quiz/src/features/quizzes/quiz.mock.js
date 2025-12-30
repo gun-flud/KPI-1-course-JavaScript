@@ -503,11 +503,11 @@ app.put('/quizzes/:id', (req, res) => {
 
                     let quizCount = 0;
                     questions.forEach(q => {
-                        stmtQuestion.run(quizId, q.text, function(err) {
+                        stmtQuestion.run(quizId, q.text, (err) => {
                             if (err) return reject(err);
 
 
-                            const questionId = this.lastID;
+                            const questionId = stmtQuestion.lastID;
 
                             
                             if (q.options) {
@@ -515,12 +515,16 @@ app.put('/quizzes/:id', (req, res) => {
                                     stmtOption.run(questionId, opt.text, opt.isCorrect ? 1 : 0);
                                 });
                             }
+                            quizCount++;
+                            if (quizCount === questions.length) {
+                                resolve();
+                            }
                         });
                     });
                     stmtQuestion.finalize();
                     stmtOption.finalize();
                 }
-            });
+            );
         });
 
             // Повертаємо оновлений об'єкт
