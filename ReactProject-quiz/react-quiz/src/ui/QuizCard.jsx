@@ -11,7 +11,7 @@ function QuizCard({ title, description, questionsCount, id }) {
         <p>{description}</p>
         <p>Questions: {questionsCount}</p>
         <div className="flex justify-end mt-auto mb-0">
-            <Link to="/" className="button mt-2.5">Take Quiz</Link>
+            <Link to={`/play/${id}`} className="button mt-2.5">Take Quiz</Link>
         </div>
       </div>
     );

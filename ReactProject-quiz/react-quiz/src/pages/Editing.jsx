@@ -2,23 +2,21 @@ import { useState, useRef, useEffect, useId } from 'react'
 import { useParams } from 'react-router';
 import QuizEditForm from '../ui/QuizEditForm';
 import QuizCreateForm from '../ui/QuizCreateForm.jsx';
+import PlayQuiz from '../ui/PlayQuiz.jsx';
 import "../index.css";
 
 
 function Editing() {
 
     const { id } = useParams();
-
-  //const [quizData, setQuizData] = useState(tests.quizzes[0]);
     
   return (
       <div className="container">
         <form className="quiz-form flex flex-col gap-7 flex-1" onSubmit={ (e) => {
             e.preventDefault();} }> 
+            {/* перевірку краще робити на виборі режиму, 
+            не розбивати на дві форми: переробити */}
           {id ? <QuizEditForm /> :<QuizCreateForm />}
-          {/* <div className=" ">
-            <button type="submit" className="button mt-4">Save Quiz</button>
-          </div> */}
         </form>
 		  </div>
   )

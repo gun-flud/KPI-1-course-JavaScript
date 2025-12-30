@@ -77,6 +77,17 @@
   .icon {
 	@apply h-full;
   }
+
+  /* PlayQuiz styles */
+  .quiz-title {
+	@apply text-3xl font-bold mb-4;
+  }
+  .quiz-description {
+	@apply mb-6;
+  }
+  .quiz-count {
+	@apply text-lg font-semibold ml-auto;
+  }
 }
 
 

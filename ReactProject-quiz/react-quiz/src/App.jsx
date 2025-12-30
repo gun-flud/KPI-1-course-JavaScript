@@ -4,6 +4,7 @@ import Header from './DOM-blocks/Header.jsx'
 import Footer from './DOM-blocks/Footer.jsx'
 import Home from './pages/Home.jsx'
 import Editing from './pages/Editing.jsx'
+import Play from './pages/Play.jsx'
 import './index.css'
 
 function App() {
@@ -15,9 +16,10 @@ function App() {
       <Route index element = { <Home /> } />
       <Route path="/create" element={ <Editing /> } />
       <Route path="/edit/:id" element={ <Editing /> } />
-      <Route path="/results/" element={ <div>Results Page</div> } />
-      <Route path="/result" element={ <div>Result Page</div> } />
-      <Route path="/help" element={ <div>Help Page</div> } />
+      <Route path="/play/:id" element={ <Play /> } />
+      <Route path="/results/:userId" element={ <Home /> } />
+      <Route path="/result/:Id" element={ <div>Result Page</div> } />
+      <Route path="/help" element={ <Home /> } />
     </Routes>
 		<Footer />
     </>
