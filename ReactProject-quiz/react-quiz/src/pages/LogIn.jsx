@@ -7,7 +7,7 @@ import GoogleIcon from '../assets/google-icon.svg';
 
 
 function LogIn() {
-    
+
   return (
     <div className="container"> 
         <div className="log-in"> 
@@ -30,7 +30,7 @@ function LogIn() {
                 <h4 className="text-right cursor-pointer mt-1">Forgot password</h4>
             </div>
             <button className="button mt-6">Зареєструватись</button>
-            <button className="button bg-neutral-50 border-1 border-black hover:bg-zinc-200 text-black">Зареєструватись з <img src={GoogleIcon} alt="Google Icon" className="inline-block w-6 h-6" /></button>
+            <button className="button bg-neutral-50 border border-black hover:bg-zinc-200 text-black">Зареєструватись з <img src={GoogleIcon} alt="Google Icon" className="inline-block w-6 h-6" /></button>
             <h3>Don't have an account?</h3>
         </div>
     </div>  

@@ -1,11 +1,13 @@
 import { useState, useRef, useEffect } from 'react'
 import { Link } from 'react-router'
 import { useNavigate } from 'react-router'
+import { useResponsive } from '../logic/HandleResize.jsx'
 import "../index.css"
 import logoIcon from '../assets/logo-icon.png'
 
 function Header() {
   const navigate = useNavigate();
+  const { isMobile, isTablet, isDesktop, width } = useResponsive();
 
   return (
     <>
@@ -16,6 +18,7 @@ function Header() {
 			<Link to="/" className="button">Quizzes</Link>
 			<Link to="/results" className="button" >Results</Link>
 			<Link to="/" className="button">Help</Link>
+      {isMobile && <Link to="/" className="button">{width.toString()}</Link>}
 		</div>
 		</header>
     </>
@@ -24,3 +27,6 @@ function Header() {
 }
 
 export default Header
+
+
+
