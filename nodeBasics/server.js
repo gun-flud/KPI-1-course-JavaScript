@@ -1,11 +1,12 @@
 const http = require('http');
+// const handleRoutes = require('./routes');
+// import handleRoutes from './routes.js';
+// import * as fs from 'node:fs';
+// import { http } from 'http';
+const routes = require('./routes');
 
-const server = http.createServer((req, res) => {
-    console.log(req.url, req.headers, req.method);
-    // process.exit();
+console.log(routes.someText);
 
-    res.write('<body><h1>fghfjfghjfgjfjhfhjgfjgjjj</h1></body>');
-    res.end();
-});
+const server = http.createServer(routes.handler);
 
 server.listen(3000);
