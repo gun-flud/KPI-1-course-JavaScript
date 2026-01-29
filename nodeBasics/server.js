@@ -15,10 +15,57 @@
 
 // server.listen(3000);
 
-// express.js version:
+// new version with express framework and body-parser middleware
+
+// const express = require('express');
+// const bodyParser = require('body-parser');
+
+// const app = express();
+
+// app.use(bodyParser.urlencoded({ extended: false }));
+
+// app.use('/add', (req, res, next) => {
+//     console.log('2nd middleware');
+//     res.send('<body><form action="/message" method="POST"><input type="text" name="testInput"><button type="submit">Submit</button></form></body>');
+// });
+
+// app.post('/message', (req, res, next) => {
+//     console.log(req.body);
+//     res.redirect('/');
+// });
+
+// app.use('/test', (req, res, next) => {
+//     console.log('2nd middleware');
+//     res.send('<h1>test page</h1>');
+// });
+
+// app.use('/', (req, res, next) => {
+//     console.log('1st middleware');
+//     res.send('<h1>Express server works!</h1>');
+// });
+
+
+// app.listen(3000);
+
+
+
+
 const express = require('express');
+const bodyParser = require('body-parser');
 
 const app = express();
+
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use('/add', (req, res, next) => {
+    console.log('2nd middleware');
+    res.send('<body><form action="/message" method="POST"><input type="text" name="testInput"><button type="submit">Submit</button></form></body>');
+});
+
+app.post('/message', (req, res, next) => {
+    console.log(req.body);
+    res.redirect('/');
+});
 
 app.use('/test', (req, res, next) => {
     console.log('2nd middleware');
