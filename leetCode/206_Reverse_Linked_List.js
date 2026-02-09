@@ -34,7 +34,7 @@ function ListNode(val, next) {
 const reverseList = (head) => {
     let previous = null;
     let current = head;
-    let nextTemp = null
+    let nextTemp = null;
 
     while (current) {
         nextTemp = previous;
