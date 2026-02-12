@@ -16,11 +16,13 @@
 	z-10
 	top-0 
 	bg-slate-900 
-	h-25 
+	h-24
 	px-4 
 	sm:px-6 
 	lg:px-8 
-	items-center;
+	items-center
+  /* premium icon */
+  mb-13;
   }
   footer {
 	@apply bg-slate-900 ;
@@ -43,6 +45,9 @@
 	p-4 
 	py-3 
 	mx-auto ;
+  }
+  .premium-icon {
+  @apply absolute bottom-0 left-0 top-24 w-full h-13 bg-yellow-500 flex items-center justify-between px-4 sm:px-6 lg:px-8  text-white font-bold mb-13;
   }
   .quiz-form {
 	@apply flex flex-col lg:mx-28 bg-white shadow-md rounded-lg p-4;
