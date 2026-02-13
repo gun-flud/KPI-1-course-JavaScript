@@ -1,0 +1,19 @@
+@import 'tailwindcss'; 
+
+@layer theme {
+}
+@layer base {
+  #root {
+    @apply w-full h-full;
+  }
+  body {
+    @apply 
+    flex 
+    m-0 
+    min-h-screen 
+    bg-gray-100;
+  }
+}
+@layer utilities {
+
+} 

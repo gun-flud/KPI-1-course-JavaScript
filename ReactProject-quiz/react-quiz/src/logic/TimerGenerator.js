@@ -4,6 +4,16 @@ function TimeConventer(miliseconds) {
     const minutes = Math.floor(miliseconds % ( 1000 * 60 * 60 ) / ( 1000 * 60 ) );
     const hours = Math.floor(miliseconds % ( 1000 * 60 * 60 * 24) / (1000 * 60 * 60 ) );
     const days = Math.floor(miliseconds / ( 1000 * 60 * 60 * 24));
+
+    // let milis = miliseconds;
+    // let seconds = Math.floor(milis / 1000);
+    // milis -= seconds * 1000;
+    // let minutes = Math.floor(seconds / 60);
+    // seconds -= minutes * 60;
+    // let hours = Math.floor(minutes / 60);
+    // minutes -= hours * 60;
+    // const days = Math.floor(hours / 24);
+    // hours -= days * 24;
     
     const time = { days, hours, minutes, seconds };
     
