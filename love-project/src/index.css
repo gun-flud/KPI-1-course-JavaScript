@@ -4,14 +4,13 @@
 }
 @layer base {
   #root {
-    @apply w-full h-full;
+    @apply w-screen h-screen flex flex-col;
   }
   body {
     @apply 
     flex 
     m-0 
-    min-h-screen 
-    bg-gray-100;
+    min-h-screen;
   }
 }
 @layer utilities {
