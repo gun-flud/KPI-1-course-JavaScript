@@ -34,6 +34,7 @@ export function* TimerGenerator(endDate) {
         const timeLeft = TimeConventer(timeLeftMS);
         
         if (timeLeftMS <= 0) return TimeConventer(0);
+        //12378589
 
         yield timeLeft;
     }
