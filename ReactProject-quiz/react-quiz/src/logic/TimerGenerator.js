@@ -1,5 +1,5 @@
 
-function TimeConventer(miliseconds) {
+function timeConventer(miliseconds) {
     const seconds = Math.floor(miliseconds % ( 1000 * 60 ) / 1000 );
     const minutes = Math.floor(miliseconds % ( 1000 * 60 * 60 ) / ( 1000 * 60 ) );
     const hours = Math.floor(miliseconds % ( 1000 * 60 * 60 * 24) / (1000 * 60 * 60 ) );
@@ -27,7 +27,7 @@ function TimeConventer(miliseconds) {
 
 
 
-export function* TimerGenerator(endDate) {
+export function* timerGenerator(endDate) {
     try{
     while(true) {
         const timeLeftMS = endDate - Date.now();

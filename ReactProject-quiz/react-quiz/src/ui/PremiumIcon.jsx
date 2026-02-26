@@ -1,20 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
-import { TimerGenerator } from "../logic/TimerGenerator";
+import { timerGenerator } from "../logic/TimerGenerator";
 
 import closeIcon from "../assets/close-icon.svg";
 
 function PremiumIcon({ endDate = new Date("2026-02-19T01:34:19Z").getTime() }) {
-
+    const TimerRef = useRef(TimerGenerator(endDate));
     const [counter, setCounter] = useState(() => {
-        return TimerGenerator(endDate).next().value;
+        return TimerRef.current.next().value;
     });
     const [isOpen, setIsOpen] = useState(() => endDate > Date.now() && counter);
-    const TimerRef = useRef(null);
+    
 
     useEffect(() => {
         if (!isOpen) return;
-
-        TimerRef.current = TimerGenerator(endDate);
 
         const timeIterator = setInterval(() => {
             const { value, done } = TimerRef.current.next();
@@ -31,7 +29,7 @@ function PremiumIcon({ endDate = new Date("2026-02-19T01:34:19Z").getTime() }) {
         if (timeIterator) {
             return () => clearInterval(timeIterator);
         }
-    }, []);
+    }, [isOpen]);
 
     if (!isOpen) return;
 
