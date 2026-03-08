@@ -85,7 +85,7 @@ class ListNode {
  */
 
 var sortList = function(head) {
-    if (!head) return null;
+    if (!head || !head.next) return null;
     // цикл: (порахує довжин масива)
     // цикл: (ходитиме по всьому списку збільшуючи step*2)
     // функція: (обрізає 2 шматочки довжиною step) return tail.next.val
@@ -93,33 +93,53 @@ var sortList = function(head) {
 
      // функція: (обрізає 2 шматочки довжиною step) return tail.next.val
     const splitNode = (head, size) => {
+        if (!head) return null;
         let curr = head;
-        for (let i = 1; i <= size; i++) {
-            if (!curr) break;
+
+        // for (let i = 1; i <= size; i++) {
+        //     if (!curr.next) break;
+        //     console.log(curr.val, curr.next.val);
+        //     curr = curr.next;
+            
+        // }
+        for (let i = 1; i < size; i++) {
+            if (!curr.next) break;
+            console.log(curr.val, curr.next.val);
             curr = curr.next;
+            
         }
 
-        const tail = curr.next;
+        const nextChunk = curr.next;
+        // console.log(nextChunk);
         curr.next = null;
-        return tail;
+        return nextChunk;
+        // const tail = curr;
+        // curr = null;
+        // return tail;
     }
 
-// функція: (порівнює list1 list2 та сортує)
+// функція: (порівнює list1 list2 та сортує) return start;
     const sortNodes = (list1, list2) => {
-        let start = dummy;
+        const localDummy = new ListNode(0);
+        let move = localDummy;
+
         while (list1 && list2) {
+
             if (list1.val < list2.val) {
-                start.next = list1;
-                start = list1;
+                move.next = list1;
+                move = list1;
                 list1 = list1.next;
+
             } else {
-                start.next = list2;
-                start = list2;
+                move.next = list2;
+                move = list2;
                 list2 = list2.next;
             }
         }
-        return start // end of the merged list
+        move.next = list1 || list2;
+        return localDummy.next; // start of the merged list
     }
+
     // цикл: (порахує довжин масива)
     let length = 1;
     let curr = head.next;
@@ -140,17 +160,21 @@ var sortList = function(head) {
         let tail = dummy;
 
         while (curr) {
-            let list1 = curr;
-            let list2 = splitNode(curr, step); // return tail of list1
+            const list1 = curr;
+            const list2 = splitNode(curr, step); // return tail of list1
             curr = splitNode(list2, step); // return tail of list2
 
-            curr = sortNodes(list1, list2);
+            const sortedHead = sortNodes(list1, list2);
+            tail.next = sortedHead;
 
+            while (tail.next) {
+                tail = tail.next;
+            }
         }
 
         step *= 2;
     }
-
+    return dummy.next;
 };
 
 
@@ -194,12 +218,10 @@ const listNodeToArray = (head) => {
     return array;
 }
 
-
-
 console.log(listNodeToArray(arrayToListNode([3, 8, 5, 1, 4, 7, 6, 2])));
 // 3 5 1 4 
 // 1 3 4 5
-console.log(sortList(arrayToListNode([3, 8, 5, 1, 4, 7, 6, 2])));
-console.log(listNodeToArray(arrayToListNode([])));
+console.log(listNodeToArray(sortList(arrayToListNode([3, 8, 5, 1, 4, 7, 6, 2]))));
+// console.log(listNodeToArray(arrayToListNode([])));
 // [-1, 5, 3, 4, 0]
 // [-1, 5, 3, 4, 0, -5, 10, 2]
