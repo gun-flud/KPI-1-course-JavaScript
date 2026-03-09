@@ -1,83 +1,10 @@
-
 class ListNode {
-    constructor (val, next) {
+    constructor (val, next,) {
         this.val = (val === undefined ? 0 : val);
         this.next = (next === undefined ? null : next);
     }
 }
-// /**
-//  * @param {ListNode} head
-//  * @return {ListNode}
-//  */
 
-// var sortList = function(head) {
-//     if (!head) return null;
-
-//     let step = 0;
-//     let curr = head.next;
-
-//     while(curr) {
-//         curr = curr.next;
-//         step++;
-//     }
-
-//     curr = head;
-//     for (let i = 2; i < step; i++) {
-//         const list1 = 
-//     }
-
-//     let dummyHead = new ListNode(0);
-
-//     while (list1 && list2) {
-//         if (list1.val < list2.val) {
-//             dummyHead.next = list1;
-//         } else {
-//             dummyHead.next = list2;
-//         }
-//     }          
-// };
-
-// /**
-//  * @param {ListNode} head
-//  * @return {ListNode}
-//  */
-
-// var sortList = function(head) {
-//     if (!head) return null;
-    
-//     let length = 1;
-//     let curr = head.next;
-//     while(curr) {
-//         curr = curr.next;
-//         length++;
-//     }
-
-//     const dummy = new ListNode(0);
-//     let step = 1;
-//     curr = head;
-//     dummy.next = curr;
-
-//     while (step <= length / 2) {
-//         let i = step;
-//         let tail = curr; // head
-//         while (curr) {
-//             if(i === 0) {
-//                 splitFUnc;
-//                 i = step;
-//             }
-//             tail = tail.next;
-
-//             i--;
-//         }
-//         step++;
-//     }
-
-//     const mergeSort = (list1, list2) => {
-//         while (list1 && list2) {
-
-//         }
-//     }
-// };
 
 /**
  * @param {ListNode} head
@@ -85,7 +12,7 @@ class ListNode {
  */
 
 var sortList = function(head) {
-    if (!head || !head.next) return null;
+    if (!head || !head.next) return head;  
     // цикл: (порахує довжин масива)
     // цикл: (ходитиме по всьому списку збільшуючи step*2)
     // функція: (обрізає 2 шматочки довжиною step) return tail.next.val
@@ -96,26 +23,16 @@ var sortList = function(head) {
         if (!head) return null;
         let curr = head;
 
-        // for (let i = 1; i <= size; i++) {
-        //     if (!curr.next) break;
-        //     console.log(curr.val, curr.next.val);
-        //     curr = curr.next;
-            
-        // }
         for (let i = 1; i < size; i++) {
             if (!curr.next) break;
-            console.log(curr.val, curr.next.val);
+            //console.log(curr.val);
             curr = curr.next;
-            
         }
 
         const nextChunk = curr.next;
-        // console.log(nextChunk);
+        //console.log(nextChunk);
         curr.next = null;
         return nextChunk;
-        // const tail = curr;
-        // curr = null;
-        // return tail;
     }
 
 // функція: (порівнює list1 list2 та сортує) return start;
@@ -143,7 +60,6 @@ var sortList = function(head) {
     // цикл: (порахує довжин масива)
     let length = 1;
     let curr = head.next;
-    // let curr = head.next;
     while (curr) {
         curr = curr.next;
         length++;
@@ -193,7 +109,7 @@ var sortList = function(head) {
 
 
 const arrayToListNode = (arr) => {
-    if (!arr.length) return null;
+    if (!arr.length) return null; 
 
     const head = new ListNode(arr[0]);
     let curr = head;
@@ -208,7 +124,7 @@ const arrayToListNode = (arr) => {
 
 const listNodeToArray = (head) => {
     const array = [];
-    let curr = head;
+    let curr = head; 
 
     while(curr) {
         array.push(curr.val);
@@ -225,3 +141,11 @@ console.log(listNodeToArray(sortList(arrayToListNode([3, 8, 5, 1, 4, 7, 6, 2])))
 // console.log(listNodeToArray(arrayToListNode([])));
 // [-1, 5, 3, 4, 0]
 // [-1, 5, 3, 4, 0, -5, 10, 2]
+
+
+
+
+
+
+
+

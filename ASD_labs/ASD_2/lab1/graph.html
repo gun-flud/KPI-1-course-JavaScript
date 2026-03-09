@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Візуалізація Lab1 - 4 Графіки</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background-color: #f8f9fa; color: #333; }
+        .container { max-width: 1200px; margin: 0 auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        h1, h2 { text-align: center; }
+        .chart-wrapper { width: 100%; max-width: 900px; margin: 0 auto 40px auto; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: center; }
+        th { background-color: #007bff; color: white; position: sticky; top: 0; }
+        tr:nth-child(even) { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Аналіз рекурсивних функцій arcsin(x)</h1>
+    
+    <div class="chart-wrapper">
+        <canvas id="convergenceChart"></canvas>
+    </div>
+
+    <h2>Таблиця результатів (x = 0.5)</h2>
+    <table id="resultsTable">
+        <thead>
+            <tr>
+                <th>n</th>
+                <th>callback (Спуск)</th>
+                <th>callback2 (Повернення)</th>
+                <th>callback3 (Змішаний)</th>
+                <th>arcsin (Еталон)</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script src="lab1.js"></script>
+
+<script>
+    const test_x = 0.5;
+    const test_y = 30;
+    const exactValue = Math.asin(test_x);
+
+    const labels = [];
+    const dataCallback1 = [];
+    const dataCallback2 = [];
+    const dataCallback3 = [];
+    const dataArcsin = [];
+
+    const tbody = document.querySelector('#resultsTable tbody');
+
+    // Збираємо дані для всіх 4 ліній
+    for (let current_n = 1; current_n <= test_y; current_n++) {
+        labels.push(`n=${current_n}`);
+
+        const res1 = callback(test_x, 1, current_n, test_x, test_x);
+        const res2 = callback2(test_x, 1, current_n).sum;
+        const res3 = callback3(test_x, 1, current_n, test_x);
+
+        dataCallback1.push(res1);
+        dataCallback2.push(res2);
+        dataCallback3.push(res3);
+        dataArcsin.push(exactValue);
+
+        // Заповнюємо таблицю
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td><strong>${current_n}</strong></td>
+            <td>${res1.toFixed(10)}</td>
+            <td>${res2.toFixed(10)}</td>
+            <td>${res3.toFixed(10)}</td>
+            <td>${exactValue.toFixed(10)}</td>
+        `;
+        tbody.appendChild(tr);
+    }
+
+    // Будуємо 4 графіки
+    const ctx = document.getElementById('convergenceChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: labels,
+            datasets: [
+                {
+                    label: 'Спуск (callback)',
+                    data: dataCallback1,
+                    borderColor: 'rgba(255, 99, 132, 1)', // Червоний
+                    borderWidth: 8, // Найтовстіша лінія (буде на фоні)
+                    tension: 0.1
+                },
+                {
+                    label: 'Повернення (callback2)',
+                    data: dataCallback2,
+                    borderColor: 'rgba(54, 162, 235, 1)', // Синій
+                    borderDash: [15, 5], // Великий пунктир
+                    borderWidth: 5,
+                    tension: 0.1
+                },
+                {
+                    label: 'Змішаний (callback3)',
+                    data: dataCallback3,
+                    borderColor: 'rgba(255, 206, 86, 1)', // Жовтий
+                    borderDash: [5, 5], // Дрібний пунктир
+                    borderWidth: 3,
+                    tension: 0.1
+                },
+                {
+                    label: 'Math.asin (arcsin)',
+                    data: dataArcsin,
+                    borderColor: 'rgba(0, 0, 0, 0.8)', // Чорний
+                    borderWidth: 1, // Найтонша лінія
+                    pointRadius: 0,
+                    tension: 0.1
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    title: { display: true, text: 'Результат' },
+                    min: 0.45, 
+                    max: 0.55
+                },
+                x: {
+                    title: { display: true, text: 'Кількість кроків (n)' }
+                }
+            }
+        }
+    });
+</script>
+
+</body>
+</html>
