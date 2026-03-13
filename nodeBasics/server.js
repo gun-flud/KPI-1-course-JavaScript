@@ -44,18 +44,14 @@
 //     res.send('<h1>Express server works!</h1>');
 // });
 
-
 // app.listen(3000);
 
+const express = require("express");
+const path = require("path");
+const bodyParser = require("body-parser");
 
-
-
-const express = require('express');
-const path = require('path');
-const bodyParser = require('body-parser');
-
-const adminRout = require('./routes/adminRout');
-const clientRout = require('./routes/clientRout');
+const adminRout = require("./routes/adminRout");
+const clientRout = require("./routes/clientRout");
 
 const app = express();
 
@@ -69,12 +65,9 @@ app.use(adminRout, clientRout);
 
 app.use((req, res, next) => {
     res
-    .status(404)
-    .sendFile(path.join(__dirname, 'views', '404.html'));
+        .status(404)
+        .sendFile(path.join(__dirname, "views", "404.html"));
     // .send('<h1>404</h1>'); класичний send
-})
-
+});
 
 app.listen(3000);
-
-

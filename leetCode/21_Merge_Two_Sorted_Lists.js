@@ -9,7 +9,7 @@ function ListNode(val, next) {
  * @return {ListNode}
  */
 var mergeTwoLists = function (list1, list2) {
-    
+    // ????
 };
 
 
