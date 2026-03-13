@@ -9,7 +9,24 @@ function ListNode(val, next) {
  * @return {ListNode}
  */
 var mergeTwoLists = function (list1, list2) {
-    // ????
+    const dummyNode = new ListNode(0);
+    let dummy = dummyNode;
+
+    while (list1 && list2) {
+        if (list1.val < list2.val) {
+            dummy.next = list1;
+            dummy = dummy.next;
+            list1 = list1.next;
+        } else {
+            dummy.next = list2;
+            dummy = dummy.next;
+            list2 = list2.next;
+        }
+    }
+
+    dummy.next = list1 || list2;
+
+    return dummyNode.next;
 };
 
 
