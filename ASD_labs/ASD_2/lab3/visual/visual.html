@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Graph Visualization</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+
+            body {
+                font-family:
+                    -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+                background: #f1f5f9;
+                padding: 24px;
+                color: #1e293b;
+            }
+
+            h1 {
+                font-size: 18px;
+                font-weight: 600;
+                margin-bottom: 4px;
+                text-align: center;
+            }
+
+            .subtitle {
+                font-size: 13px;
+                color: #64748b;
+                text-align: center;
+                margin-bottom: 24px;
+            }
+
+            .graphs-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+                margin-bottom: 16px;
+            }
+
+            .card {
+                background: white;
+                border-radius: 10px;
+                padding: 16px;
+                border: 1px solid #e2e8f0;
+            }
+
+            .card h2 {
+                font-size: 14px;
+                font-weight: 600;
+                margin-bottom: 12px;
+                color: #334155;
+            }
+
+            canvas {
+                display: block;
+                width: 100%;
+                border-radius: 6px;
+                border: 1px solid #e2e8f0;
+            }
+
+            .matrices-row {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 16px;
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                font-family: monospace;
+                font-size: 12px;
+            }
+
+            th,
+            td {
+                padding: 4px 6px;
+                text-align: center;
+                border: 1px solid #e2e8f0;
+            }
+
+            th {
+                background: #f8fafc;
+                font-weight: 600;
+            }
+
+            td.one {
+                color: #3b82f6;
+                font-weight: 600;
+            }
+            td.zero {
+                color: #cbd5e1;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Graph Visualization — Variant 5413</h1>
+        <p class="subtitle">
+            Group 54 · Variant 13 · n=9 vertices · Rectangle layout · k=0.715
+        </p>
+
+        <div class="graphs-row">
+            <div class="card">
+                <h2>Directed Graph (Adir)</h2>
+                <canvas id="dirCanvas" width="500" height="300"></canvas>
+            </div>
+            <div class="card">
+                <h2>Undirected Graph (Aundir)</h2>
+                <canvas id="undirCanvas" width="500" height="300"></canvas>
+            </div>
+        </div>
+
+        <div class="matrices-row">
+            <div class="card">
+                <h2>Adjacency Matrix — Directed</h2>
+                <div id="dirMatrix"></div>
+            </div>
+            <div class="card">
+                <h2>Adjacency Matrix — Undirected</h2>
+                <div id="undirMatrix"></div>
+            </div>
+        </div>
+
+        <script type="module" src="graph.js"></script>
+    </body>
+</html>
