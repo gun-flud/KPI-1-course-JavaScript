@@ -3,9 +3,11 @@ class Random {
         this.seed = seed;
     }
 
-    randomise() {
-        this.seed = (Math.imul(this.seed, 1103515245) + 12345) & 0x7fffffff;
-        return this.seed / 0x7fffffff;
+    randomise(min, max) {
+        // return Math.floor( Math.random() * (max - min + 1) ) + min;
+         return (Math.random() * max);
+        // this.seed = (Math.imul(this.seed, 1103515245) + 12345) & 0x7fffffff;
+        // return this.seed / 0x7fffffff;
     }
 }
 
@@ -14,6 +16,7 @@ export const n = 9;
 const k = 1 - 1 * 0.02 - 3 * 0.005 - 0.25;
 
 function dir(num) {
+    console.log(num);
     const vertex = num * k;
     return vertex >= 1 ? 1 : 0;
 }
@@ -26,8 +29,7 @@ function createDirectedGraph(n) {
         matrix[row] = [];
 
         for (let col = 0; col < n; col++) {
-            //console.log(random.randomise());
-            matrix[row][col] = dir(random.randomise() * 2);
+            matrix[row][col] = dir(random.randomise(0, 2));
         }
     }
 
